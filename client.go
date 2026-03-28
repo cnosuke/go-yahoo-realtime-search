@@ -71,3 +71,21 @@ func (c *Client) SearchWithLimit(ctx context.Context, query string, limit int) (
 
 	return c.scraper.fetch(ctx, query, limit)
 }
+
+// SearchWithQuery performs a search using a Query builder.
+func (c *Client) SearchWithQuery(ctx context.Context, q *Query) (*SearchResult, error) {
+	queryStr, err := q.Build()
+	if err != nil {
+		return nil, err
+	}
+	return c.Search(ctx, queryStr)
+}
+
+// SearchWithQueryAndLimit performs a search using a Query builder with a result limit.
+func (c *Client) SearchWithQueryAndLimit(ctx context.Context, q *Query, limit int) (*SearchResult, error) {
+	queryStr, err := q.Build()
+	if err != nil {
+		return nil, err
+	}
+	return c.SearchWithLimit(ctx, queryStr, limit)
+}
